@@ -1,0 +1,53 @@
+{
+  "user": [
+    {
+      "uid": "oiuoiu",
+      "name": "Dave",
+      "email": "dave@dave.com"
+    }
+  ],
+  "content": [
+    {
+      "uid": "ijoo",
+      "markup": {
+        "source": "",
+        "format": "html"
+      },
+      "style": {
+        "source": "",
+        "format": "css"
+      },
+      "script": {
+        "source": "",
+        "format": "js"
+      },
+      "tests": ""
+    }
+  ],
+  "activity": [
+    {
+      "uid": "qaz",
+      "meta": {
+        "title": "",
+        "description": "",
+        "tags": [
+          "test"
+        ]
+      },
+      "content": "ijoo"
+    }
+  ],
+  "instance": [
+    {
+      "uid": "qwe",
+      "activity": "qaz",
+      "user": "ouioiu",
+      "snapshots": [
+        {
+          "timestamp": "9879879879",
+          "content": "ijoo"
+        }
+      ]
+    }
+  ]
+}

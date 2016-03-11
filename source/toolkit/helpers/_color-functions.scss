@@ -1,0 +1,20 @@
+/**
+ * get a color from the color map
+ * @param  {string} $colorname: 'brand' The named color from either $colors-default or $colors-spec (if defined)
+ * @return {color}
+ * @group Toolkit
+ * @component Helpers
+ * @ignore true
+ */
+@function get-color($colorname: 'brand') {
+
+    $colors-all: $colors-default;
+
+    @if variable-exists('colors-spec'){
+        @if type-of($colors-spec) == map {
+            $colors-all: map-merge($colors-default, $colors-spec);
+        }
+    }
+
+    @return map-get($colors-all, '#{$colorname}');
+}

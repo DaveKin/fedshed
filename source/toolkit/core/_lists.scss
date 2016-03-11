@@ -1,0 +1,50 @@
+/**
+ * Lists
+ *
+ * @group Toolkit
+ * @component Lists
+ */
+
+/**
+ * @group Toolkit
+ * @component Lists
+ */
+$list-padding: 0 0 0 $core-padding * 2 !default;
+/**
+ */
+$list-style-type: disc !default;
+/**
+ */
+$list-style-image: none !default;
+/**
+ */
+$list-margin: $core-margin 0 !default;
+
+/**
+ */
+@mixin make-list($item-selector:'li'){
+    @include list;
+    
+    #{$item-selector} {
+        @include list-item;
+    }
+}
+
+/**
+ */
+@mixin list($padding: $list-padding, $margin: $list-margin, $style-type: $list-style-type) {
+    display: block;
+    padding: $padding;
+    margin: $margin;
+    list-style-type: $style-type;
+}
+
+/**
+ */
+@mixin list-item($style-type: $list-style-type, $image: $list-style-image){
+    display: list-item;
+    list-style-type: $style-type;
+    @if $image != none {
+        list-style-image: $image;
+    }
+}

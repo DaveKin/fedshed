@@ -1,0 +1,136 @@
+/**
+ * Tables
+ *
+ * @group Toolkit
+ * @component Tables
+ */
+$table-margin: $core-margin 0 !default;
+/**
+ * @type color
+ */
+$table-background: transparent !default;
+/**
+ */
+$table-padding: $core-padding/2 $core-padding ($core-padding/2) - $core-border-width !default;
+/**
+ * @type color
+ */
+$table-row-hover: $core-color-neutral !default;
+/**
+ * @type color
+ */
+$table-stripe-background: lighten($core-color-neutral, 20%) !default;
+/**
+ */
+$table-stripe: even !default;
+/**
+ * @type color
+ */
+$table-head-background: $core-color-neutral !default;
+/**
+ * @type color
+ */
+$table-foot-background: $core-color-neutral !default;
+/**
+ * @type color
+ */
+$table-head-color: $core-color-dark !default;
+/**
+ */
+$table-border-width: $core-border-width !default;
+/**
+ */
+$table-border-style: $core-border-style !default;
+/**
+ * @type color
+ */
+$table-border-color: $core-border-color !default;
+
+
+/**
+ * make the element into a table
+ * 
+ * @param  {string} $rowSelector:  'tr'          a css selector for child elements to be used as table rows
+ * @param  {string} $cellSelector: 'td,th'       a css selector for child elements to be used as table cells
+ * @param  {boolean} $striped:      true          use different background color for alternate table rows
+ * @param  {boolean} $bordered:     true          add a border to the table and it's cells
+ * @group Toolkit
+ * @component Tables
+ */
+@mixin make-table($rowSelector: 'tr', $cellSelector: 'td,th', $striped: true, $bordered: true){
+    
+    @include table;
+
+    #{$rowSelector} {
+        @include table-row;
+        @if $striped == true {
+            @include table-striped();
+        }
+    }
+
+    #{$cellSelector} {
+        @include table-cell;
+        @if $bordered == true {
+            @include table-bordered();
+        }
+    }
+
+
+}
+
+/**
+ * Base table
+ * 
+ * @param  {string} $margin: $table-margin the margin for the table
+ * @group Toolkit
+ * @component Tables
+ */
+@mixin table($margin: $table-margin) {
+    display: table;
+    margin: $margin;
+    margin-bottom: $table-border-width * -1;
+}
+
+/**
+ * Base table row
+ * 
+ * @group Toolkit
+ * @component Tables
+ */
+@mixin table-row() {
+    display: table-row;
+}
+
+/**
+ * Base table cell
+ * @param {string} $padding: $table-padding the padding for the cell
+ * @group Toolkit
+ * @component Tables
+ */
+@mixin table-cell($padding: $table-padding) {
+    display: table-cell;
+    padding: $padding;
+}
+
+/**
+ * Striped table row
+ * @group Toolkit
+ * @component Tables
+ */
+@mixin table-striped($stripe: $table-stripe, $background: $table-stripe-background) {
+    
+    &:nth-child(#{$stripe}) {
+        background-color: $background;
+    }
+}
+
+/**
+ * Bordered table
+ * @param  {string} $border: $table-border-width $table-border-style $table-border-color border css
+ * @group Toolkit
+ * @component Tables
+ */
+@mixin table-bordered($border: $table-border-width $table-border-style $table-border-color) {
+    border: $border;
+}
+

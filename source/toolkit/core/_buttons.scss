@@ -1,0 +1,120 @@
+/**
+ * default button spec
+ * 
+ * override or extend for site by defining a $btns-spec map
+ * this will be merged with the default during the build
+ * 
+ * @group Toolkit
+ * @component Buttons
+ */
+$button-border-radius: $core-border-radius !default;
+/**
+ */
+$button-styles-default: (
+    primary: (
+        default: (
+            background-color: $core-color-brand,
+            border-color: $core-color-brand,
+            border-width: $core-border-width,
+            border-style: $core-border-style,
+            padding: $core-grid-unit - $core-border-width,
+            font-size: $core-font-size, 
+            color: $core-color-light,
+            line-height: $core-line-height,
+            border-radius: $button-border-radius,
+            display: inline-block,
+        ),
+        hover: (
+            background-color: lighten($core-color-brand, 10%),
+            border-color: lighten($core-color-brand, 10%),
+            color: $core-color-light,
+        )
+    ),
+    secondary: (
+        default: (
+            background-color: $core-color-light,
+            border-color: $core-color-brand,
+            border-width: $core-border-width,
+            border-style: $core-border-style,
+            padding: $core-grid-unit - $core-border-width,
+            font-size: $core-font-size, 
+            color: $core-color-brand,
+            line-height: $core-line-height, 
+            border-radius: $core-border-radius,
+            display: inline-block
+        ),
+        hover: (
+            background-color: $core-color-brand,
+            color: $core-color-light,
+        )
+    ),
+    tertiary: (
+        default: (
+            background-color: $core-color-neutral,
+            border-color: $core-color-neutral,
+            border-width: $core-border-width,
+            border-style: $core-border-style,
+            padding: $core-grid-unit - $core-border-width,
+            font-size: $core-font-size, 
+            color: $core-color-dark,
+            line-height: $core-line-height, 
+            border-radius: $core-border-radius,
+            display: inline-block
+        ),
+        hover: (
+            background-color: darken($core-color-neutral, 20%),
+            border-color: darken($core-color-neutral, 20%),
+            color: $core-color-light,
+        )
+    ),
+    link: (
+        default: (
+            background-color: transparent,
+            border-color: transparent,
+            border-width: 0,
+            border-style: none,
+            padding: 0,
+            font-size: $core-font-size, 
+            color: $core-color-brand,
+            line-height: $core-line-height, 
+            border-radius: 0,
+            display: inline
+        ),
+        hover: (
+            background-color: transparent,
+            color: lighten($core-color-brand, 20%),
+            text-decoration: underline
+        )
+    )
+);
+
+/**
+ * Generate button css from named style
+ *
+ * merges `$button-styles-site` with `$button-styles-default` so that custom button styles can be included in config
+ * 
+ * @group Toolkit
+ * @component Buttons
+ * @type-of mixin
+ * @param {string} $spec the name of a defined button style from either `btns-default` or `btns-spec`
+ */
+@mixin button($style: 'primary') {
+    $button-styles-all: $button-styles-default;
+    @if variable-exists('button-styles-site') {
+        @if type-of($button-styles-site) == map {
+            $button-styles-all: map-merge($button-styles-default, $button-styles-site);
+        }
+    }
+
+    $props: map-get($button-styles-all, $style);
+
+    @if type-of(map-get($props, 'default')) == map {
+        @include map-to-props(map-get($props, 'default'));
+    }
+    @if type-of(map-get($props, 'hover')) == map {
+        &:hover{
+            @include map-to-props(map-get($props, 'hover'));
+        }
+    }
+}
+

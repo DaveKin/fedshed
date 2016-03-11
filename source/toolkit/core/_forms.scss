@@ -1,0 +1,432 @@
+/**
+ * # Forms and form elements
+ *
+ * Aim is to be able to apply a full set of form styles or grab styles for individual elements
+ * This should be similar to the tables mixins
+ * 
+ * @group Toolkit
+ * @component Forms
+ */
+
+/**
+ * @group Toolkit
+ * @component Forms
+ */
+$form-margin: $core-margin !default;
+/**
+ */
+$form-padding: $core-padding !default;
+/**
+ */
+$form-group-margin: $core-margin !default;
+
+/**
+ */
+$form-fieldset-margin: 0 !default;
+/**
+ */
+$form-fieldset-padding: $core-padding !default;
+/**
+ */
+$form-fieldset-border-width: $core-border-width !default;
+/**
+ */
+$form-fieldset-border-style: $core-border-style !default;
+/**
+ * @type color
+ */
+$form-fieldset-border-color: $core-border-color !default;
+/**
+ */
+$form-fieldset-border-radius: $core-border-radius !default;
+
+/**
+ */
+$form-label-text: body-1 !default;
+
+/**
+ */
+$form-input-text: body-2 !default;
+/**
+ */
+$form-input-padding: $core-padding/2 !default;
+/**
+ */
+$form-input-border-width: $core-border-width !default;
+/**
+ */
+$form-input-border-style: $core-border-style !default;
+/**
+ * @type color
+ */
+$form-input-border-color: $core-border-color !default;
+/**
+ */
+$form-border-radius: $core-border-radius !default;
+
+/**
+ */
+$form-inputs-default: (
+    text: (
+        text: $form-input-text,
+        border: $form-input-border-width $form-input-border-style $form-input-border-color,
+        border-radius: $form-border-radius,
+        padding: $form-input-padding - $form-input-border-width
+    ),
+    color: (
+        width: $core-line-height,
+        height: $core-line-height
+    ),
+    select: (
+        text: $form-input-text,
+        border: $form-input-border-width $form-input-border-style $form-input-border-color,
+        border-radius: $form-border-radius,
+        padding: $form-input-padding
+    ),
+    checkbox: (
+        border: $form-input-border-width $form-input-border-style $form-input-border-color,
+        border-radius: $form-border-radius
+    ),
+    option: (
+        display: block
+    )
+);
+
+/**
+ */
+$form-layouts-default: (
+    vertical: (
+        label: (
+            display: block,
+            clear: both
+        ),
+        input: (
+            display: block,
+            clear: both
+        ),
+        group: (
+            display: block,
+            clear: both,
+            margin: $form-group-margin 0
+        ),
+        fieldset: (
+            display: block,
+            clear: both,
+            margin: $form-fieldset-margin,
+            padding: $form-fieldset-padding,
+            border-width: $form-fieldset-border-width,
+            border-style: $form-fieldset-border-style,
+            border-color: $form-fieldset-border-color,
+            border-radius: $form-fieldset-border-radius
+        )
+    ),
+    horizontal: (
+        label: (
+            display: block,
+            float: flip(left, right),
+            clear: flip(left, right)
+        ),
+        input: (
+            display: block,
+            float: flip(left, right),
+        ),
+        group: (
+            display: block,
+            clear: both,
+            margin: $form-group-margin 0
+        ),
+        fieldset: (
+            display: block,
+            clear: both,
+            margin: $form-fieldset-margin,
+            padding: $form-fieldset-padding,
+            border-width: $form-fieldset-border-width,
+            border-style: $form-fieldset-border-style,
+            border-color: $form-fieldset-border-color,
+            border-radius: $form-fieldset-border-radius
+        )
+    ),
+    inline: (
+        label: (
+            display: block,
+            float: flip(left, right),
+            clear: none
+        ),
+        input: (
+            display: block,
+            float: flip(left, right),
+            clear: none
+        ),
+        group: (
+            display: block,
+            float: flip(left, right),
+            clear: none,
+            margin: $form-group-margin
+        ),
+        fieldset: (
+            margin: $form-fieldset-margin,
+            padding: $form-fieldset-padding,
+            border-width: $form-fieldset-border-width,
+            border-style: $form-fieldset-border-style,
+            border-color: $form-fieldset-border-color,
+            border-radius: $form-fieldset-border-radius
+        )
+    )
+);
+
+
+/**
+ * generate css for a form input from the named style
+ * @param  {string} $style: text          the named input style
+ * @group Toolkit
+ * @component Forms
+ */
+@mixin form-input($style: text){
+    //merge any custom typography styles into the defaults
+    $form-inputs-all: $form-inputs-default;
+    @if variable-exists('form-inputs-site') {
+        @if type-of($form-inputs-site) == map {
+            $form-inputs-all: map-merge($form-inputs-default, $form-inputs-site);
+        }
+    }
+    
+    // get the named style spec
+    $props: map-get($form-inputs-all, $style);
+    @if type-of($props) == map {
+        // generate the css
+        @include map-to-props($props);
+    }
+
+}
+
+/**
+ */
+@mixin form-label($text: $form-label-text) {
+    @include text($text);
+}
+
+/**
+ */
+@mixin make-form($style: vertical, $groupSelector: 'div') {
+
+    //merge any custom typography styles into the defaults
+    $form-layouts-all: $form-layouts-default;
+    @if variable-exists('form-layouts-site') {
+        @if type-of($form-layouts-site) == map {
+            $form-layouts-all: map-merge($form-layouts-default, $form-layouts-site);
+        }
+    }
+    // get the named style spec
+    $props: map-get($form-layouts-all, $style);
+
+    display: block;
+    margin: $form-margin;
+    padding: $form-padding;
+
+
+    #{inspect($groupSelector)} {
+        @include map-to-props(map-get($props, 'group'));                
+    }
+
+    fieldset {
+        @include map-to-props(map-get($props, 'fieldset'));        
+    }
+
+    input:not([type=submit]):not([type=file]):not([type=color]):not([type=range]), textarea {
+        @include map-to-props(map-get($props, 'input'));
+        @include form-input;
+    }
+
+    input[type=color]{
+        @include form-input('color');
+    }
+
+    input[type=checkbox][type=radio]{
+        @include form-input('checkbox');
+    }
+
+    select{
+        @include form-input('select');
+    }
+
+    option{
+        @include form-input('option');
+    }
+
+    label {
+        @include map-to-props(map-get($props, 'label'));
+        @include form-label;        
+    }
+
+}
+
+
+// this is only here for reference whilst working on the form mixins
+@mixin base-form {
+
+    fieldset {
+     // set of related form controls
+    }
+
+    legend {
+     // title or explanatory caption
+     @include text('display-3');
+    }
+
+    label {
+     // caption for a form control
+     @include text('body-3');
+    }
+
+    input {
+     // input control
+
+        &[type=text] {
+          //text-input field
+        }
+
+        &[type=password] {
+          //password-input field
+        }
+
+        &[type=checkbox] {
+          //checkbox
+        }
+
+        &[type=radio] {
+          //radio button
+        }
+
+        &[type=button] {
+          //button
+        }
+
+        &[type=submit] {
+          //submit button
+        }
+
+        &[type=reset] {
+          //reset button
+        }
+
+        &[type=file] {
+          //file upload control
+        }
+
+        &[type=hidden] {
+          //hidden input control
+        }
+
+        &[type=image] {
+          //image-coordinates input control
+        }
+
+        &[type=datetime] {
+          //global date-and-time input control NEW
+        }
+
+        &[type=datetime-local] {
+          //local date-and-time input control NEW
+        }
+
+        &[type=date] {
+          //date input control NEW
+        }
+
+        &[type=month] {
+          //year-and-month input control NEW
+        }
+
+        &[type=time] {
+          //time input control NEW
+        }
+
+        &[type=week] {
+          //year-and-week input control NEW
+        }
+
+        &[type=number] {
+          //number input control NEW
+        }
+
+        &[type=range] {
+          //imprecise number-input control NEW
+        }
+
+        &[type=email] {
+          //e-mail address input control NEW
+        }
+
+        &[type=url] {
+          //URL input control NEW
+        }
+
+        &[type=search] {
+          //search field NEW
+        }
+
+        &[type=tel] {
+          //telephone-number-input field NEW
+        }
+
+        &[type=color] {
+          //color-well control NEW
+        }
+    }
+
+    select {
+     // option-selection form control
+    }
+
+    optgroup {
+     // group of options
+    }
+
+    option {
+     // option
+    }
+
+    textarea {
+     // text input area
+    }
+
+}
+
+
+/**
+ * style an input for an appended element
+ * 
+ * @group Toolkit
+ * @component Forms
+ */
+@mixin input-append() {
+    @if $core-direction == ltr {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        margin-right: 0;
+    }
+    @else {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        margin-left: 0;
+    }
+}
+
+/**
+ * style an input for a prepended element
+ * 
+ * @group Toolkit
+ * @component Forms
+ */
+@mixin input-prepend() {
+    @if $core-direction == ltr {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        margin-left: 0;
+    }
+    @else{
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        margin-right: 0;
+    }
+}

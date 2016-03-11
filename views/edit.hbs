@@ -1,0 +1,62 @@
+<header class="appHeader">
+<span class="appName">FEDShed</span>
+<ul class="appNav">
+    <li><a data-toggle=".info" data-toggleon="false">info</a>
+    <li><a data-toggle=".markupEditor" data-toggleon="true">markup</a>
+    <li><a data-toggle=".styleEditor" data-toggleon="true">styles</a>
+    <li><a data-toggle=".scriptEditor" data-toggleon="true">script</a>
+    <li><a data-toggle=".testEditor" data-toggleon="false">tests</a>
+    <li><a data-toggle=".consoleRender" data-toggleon="false">console</a>
+    <li><a data-toggle=".resultRender" data-toggleon="true">result</a>
+    <li><a data-toggle=".testRender" data-toggleon="false">testResults</a>
+</ul>
+</header>
+
+<div class="info">
+    <h1 class="title">Title</h1>
+    <p class="description">description</p>
+</div>
+
+<div class="source">
+
+    <div class="markupEditor">&lt;!-- markup editor here. --&gt;
+&lt;div class="myClass"&gt;Edit this&lt;/div&gt;
+    </div>
+
+    <div class="styleEditor">/* style editor here. */
+.myClass{
+    display: block;
+    box-shadow: 2px 3px 2px rgba(0,0,0,0.2);
+}
+    </div>
+
+    <div class="scriptEditor">// script editor here.
+(function(){
+    alert('script running');
+})();
+    </div>
+
+    <div class="testEditor">// tests editor here.
+describe('something', function(){
+    it("should have some tests", function(){
+        expect(true).to.equal(true);
+    });
+});
+    </div>
+
+</div>
+
+<div class="output">
+
+    <div class="consoleRender">
+        console here
+    </div>
+
+    <div class="resultRender">
+        rendered page output
+    </div>
+
+    <div class="testRender">
+        test results
+    </div>
+</div>

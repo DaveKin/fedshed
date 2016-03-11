@@ -1,0 +1,87 @@
+/**
+ * Tabs
+ *
+ * @group Toolkit
+ * @component Tabs
+ */
+
+/**
+ * @group Toolkit
+ * @component Tabs
+ */
+
+
+$tab-group-margin: $core-grid-unit 0 0 0 !default;
+/**
+ */
+$tab-group-padding: $core-grid-unit 0 0 0 !default;
+/**
+ * @type color
+ */
+$tab-group-background-color: transparent !default;
+/**
+ */
+$tab-font-size: $core-font-size !default;
+/**
+ * @type color
+ */
+$tab-color: $core-color-light !default;
+/**
+ */
+$tab-padding: $core-grid-unit !default;
+/**
+ */
+$tab-margin: 0 ( $core-grid-unit / 2 ) 0 0 !default;
+/**
+ */
+$tab-background-color: $core-color-brand !default;
+/**
+ */
+$tab-border-radius: $core-border-radius $core-border-radius 0 0 !default;
+/**
+ */
+$tab-content-border-radius: 0 0 $core-border-radius $core-border-radius !default;
+/**
+ */
+$tab-border: none !default;
+/**
+ */
+
+
+@mixin make-tabs($item-selector:'li'){
+  @include tab-group;
+
+  #{$item-selector} {
+    @include tab;
+  }
+}
+
+/**
+ */
+@mixin tab-group($padding: $tab-group-padding, $margin: $tab-group-margin, $background-color: $tab-group-background-color) {
+  display: block;
+  margin: $margin;
+  padding: $padding;
+  background-color: $background-color;
+  /* To remove gap caused by whitespace */
+  font-size: 0;
+}
+
+/**
+ */
+@mixin tab($padding: $tab-padding, $margin: $tab-margin, $font-size: $tab-font-size, $background-color: $tab-background-color, $border-radius: $tab-border-radius, $border: $tab-border, $color: $tab-color) {
+  display: inline-block;
+  font-size: $font-size;
+  color: $color;
+  padding: $padding;
+  margin: $margin;
+  background-color: $background-color;
+  border-radius: $border-radius;
+  border: $border;
+}
+
+@mixin tab-content(){
+    @include panel-bordered;
+    margin: 0;
+    border-radius: $tab-content-border-radius;
+}

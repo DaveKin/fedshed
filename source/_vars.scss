@@ -1,0 +1,23 @@
+/**
+ * # App vars
+ */
+
+// site specific core variables
+//$core-direction: rtl;
+$core-grid-unit: 10px;
+$core-color-brand: #C9990C;
+$core-color-dark: #333;
+$core-font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+$core-font-size: $core-grid-unit * 1.4;
+$core-line-height: $core-grid-unit * 2;
+$core-border-radius: $core-grid-unit/2;
+$core-margin: ($core-grid-unit / 2);
+$core-padding: ($core-grid-unit / 2);
+
+// import default vars
+// it's important that these are imported after the core site vars
+// as some of the default values are derived from other defaults
+// this allows all of the core vars to be available to use for
+// overriding component variables below
+@import './source/toolkit/default-config';
+

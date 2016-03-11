@@ -1,0 +1,119 @@
+@import 'vars';
+
+@import 'toolkit/toolkit';
+
+// reset styling for all elements to a common baseline 
+// this import needs to be after vars as it uses core variables
+// for the base font-size and line-height
+@import 'total-reset';
+
+
+html{
+    height: 100%;
+}
+
+body {
+  font-size: $core-font-size;
+  font-family: $core-font-family;
+  line-height: $core-line-height;
+  color: $core-color-dark;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 0;
+}
+
+a {
+  color: $core-color-brand;
+}
+
+.appHeader{
+    display: block;
+    flex:0;
+    background-color: $core-color-neutral;
+    padding: $core-padding $core-padding $core-padding ($core-padding * 2 + 25px);
+    background-image: url(/images/shed.jpg);
+    background-repeat: no-repeat;
+    background-position: $core-padding $core-padding;
+    background-size: 25px 25px;
+}
+.appName{
+    display: inline-block;
+    margin: 0;
+}
+.appNav{
+    list-style-type: none;
+    display: inline-block;
+    margin: 0;
+}
+.appNav li{
+    display: inline-block;
+    margin-right: $core-margin;
+}
+.appNav a{
+    @include button('primary');
+}
+
+.appNav a[data-toggleon=false]{
+    background-color: transparent;
+}
+
+.info{
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-color: $core-color-light;
+    padding: 1em;
+    display: none;
+}
+
+.source{
+    display: flex;
+    flex: 1;
+    flex-flow: row nowrap;
+    margin-right: ($core-margin * -1);
+    margin-bottom: $core-margin;
+}
+.markupEditor{
+    flex: 1;
+    margin-right: $core-margin;
+}
+.styleEditor{
+    flex: 1;
+    margin-right: $core-margin;
+}
+.scriptEditor{
+    flex: 1;
+    margin-right: $core-margin;
+}
+.testEditor{
+    flex: 1;
+    margin-right: $core-margin;
+    display: none;
+}
+
+.output{
+    display: flex;
+    flex: 1;
+    flex-flow: row nowrap;
+    margin-right: ($core-margin * -1);
+}
+
+.consoleRender{
+    flex: 1;
+    border: $core-border-width $core-border-style $core-border-color;
+    margin-right: $core-margin;
+    display: none;
+}
+.resultRender{
+    flex: 2;
+    border: $core-border-width $core-border-style $core-border-color;
+    margin-right: $core-margin;
+}
+.testRender{
+    flex: 1;
+    border: $core-border-width $core-border-style $core-border-color;
+    margin-right: $core-margin;
+    display: none;
+}

@@ -1,0 +1,58 @@
+/**
+ * Blocks
+ * Panels and general block-level containers
+ * 
+ * @group Toolkit
+ * @component Blocks
+ */
+
+/**
+ * @group Toolkit
+ * @component Blocks
+ */
+$block-margin: $core-margin !default;
+/**
+ */
+$block-padding: $core-padding !default;
+/**
+ */
+$block-border-width: $core-border-width !default;
+/**
+ */
+$block-border-style: $core-border-style !default;
+/**
+ * @type color
+ */
+$block-border-color: $core-border-color !default;
+/**
+ */
+$block-border-radius: $core-border-radius !default;
+
+/**
+ * standard panel - no border
+ * 
+ * @group Toolkit
+ * @component Blocks
+ */
+@mixin panel() {
+    display: block;
+    margin: $block-margin;
+    padding: $block-padding;
+}
+
+/**
+ * panel with a border
+ * 
+ * @group Toolkit
+ * @component Blocks
+ */
+@mixin panel-bordered() {
+    display: block;
+    margin: $block-margin;
+    padding: $block-padding - $block-border-width;
+    border-width: $block-border-width;
+    border-style: $block-border-style;
+    border-color: $block-border-color;
+    border-radius: $block-border-radius;
+}
+

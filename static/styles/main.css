@@ -1,0 +1,113 @@
+html{
+    height: 100%;
+}
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #333;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  margin:0;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.appHeader{
+    display: block;
+    flex:0;
+    background-color: #e0e0e0;
+    padding: 5px 5px 5px 35px;
+    background-image: url(/images/fedshed.svg);
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    background-size: 25px 25px;
+}
+.appName{
+    display: inline-block;
+    margin: 0;
+}
+.appNav{
+    list-style-type: none;
+    display: inline-block;
+    margin: 0;
+}
+.appNav li{
+    display: inline-block;
+    margin-left: 5px;
+}
+.appNav a{
+    display: block;
+    padding:3px;
+    border: 1px solid #333;
+    background-color: white;
+    cursor: pointer;
+}
+
+.appNav a[data-toggleon=false]{
+    background-color: transparent;
+}
+
+.info{
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-color: #f0f0f0;
+    padding: 1em;
+    display: none;
+}
+
+.source{
+    display: flex;
+    flex: 1;
+    flex-flow: row nowrap;
+    height: 100px;
+    margin-left:-5px;
+    margin-bottom: 5px;
+}
+.markupEditor{
+    flex: 1;
+    margin-left:5px;
+}
+.styleEditor{
+    flex: 1;
+    margin-left:5px;
+}
+.scriptEditor{
+    flex: 1;
+    margin-left:5px;
+}
+.testEditor{
+    flex: 1;
+    margin-left:5px;
+    display: none;
+}
+
+.output{
+    display: flex;
+    flex: 1;
+    flex-flow: row nowrap;
+    height: 100px;
+    margin-left:-5px;
+}
+
+.consoleRender{
+    flex: 1;
+    border: 1px inset #888;
+    margin-left:5px;
+    display: none;
+}
+.resultRender{
+    flex: 2;
+    border: 1px inset #888;
+    margin-left:5px;
+}
+.testRender{
+    flex: 1;
+    border: 1px inset #888;
+    margin-left:5px;
+    display: none;
+}

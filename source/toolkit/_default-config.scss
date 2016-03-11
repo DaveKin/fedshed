@@ -1,0 +1,91 @@
+/**
+ * # Core settings
+ *
+ * These are the defaults which should mostly be overridden for each site
+ * @group Toolkit
+ * @component Core Settings
+ */
+/**
+ * Base grid unit size. This should be the basis for all measurements.
+ * @group Toolkit
+ * @component Core Settings
+ */
+$core-grid-unit: 12px !default;
+
+/**
+ * The main branding color
+ * @type color
+ */
+$core-color-brand: #aaa !default;
+/**
+ * The main dark color
+ * @type color
+ */
+$core-color-dark: #000 !default;
+/**
+ * The main neutral/mid-tone color
+ * @type color
+ */
+$core-color-neutral: #888 !default;
+/**
+ * The main light color
+ * @type color
+ */
+$core-color-light: #fff !default;
+
+/**
+ * Line width used for separators and borders
+ */
+$core-border-width: 1px !default;
+/**
+ * Line style for separators and borders
+ */
+$core-border-style: solid !default;
+/**
+ * Line color for separators and borders
+ * @type color
+ */
+$core-border-color: $core-color-neutral !default;
+/**
+ * rounded corners on block and bordered elements
+ */
+$core-border-radius: 2px !default;
+
+/**
+ * Main font family
+ */
+$core-font-family: Helvetica, Arial, sans-serif !default;
+/**
+ * Secondary font family
+ */
+$core-secondary-font-family: $core-font-family;
+/**
+ * Base font size
+ */
+$core-font-size: $core-grid-unit * 1.2 !default;
+/**
+ * Base line height
+ */
+$core-line-height: $core-grid-unit * 2 !default;
+/**
+ * Base font weight
+ */
+$core-font-weight: 400 !default;
+
+/**
+ * Margin applied to block elements
+ */
+$core-margin: $core-grid-unit !default;
+/**
+ * Padding applied to block containers
+ */
+$core-padding: $core-grid-unit !default;
+/**
+ * Box-sizing
+ */
+$core-box-sizing: border-box !default;
+/**
+ * Direction for RTL support
+ */
+$core-direction: ltr !default;
+

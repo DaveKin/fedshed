@@ -1,0 +1,77 @@
+/**
+ *  Style Resets
+ *  
+ *  Reset every element to base style
+ *  Resets typographic properties to core size and line-height
+ *  Margins, padding and borders removed
+ *  Other element-specific properties are reset e.g. border-collapse for tables, list-style etc.
+ *  box-sizing is set to $core-box-sizing value (default is border-box)
+ *  
+ *  This also sets the display property on everything to inline for complete tag independence
+ *  
+ *  @group Utilities
+ *  @component reset
+ */
+* {
+    // typographic resets
+    font-size: $core-font-size;
+    line-height: $core-line-height;
+     font-weight: normal;
+     font-family: inherit;
+    font-style: inherit;
+    text-indent: 0;
+    text-decoration: none;
+    white-space: normal;
+    // block formatting resets
+    margin: 0;
+    padding: 0;
+     width: initial;
+     height: initial;
+    border: 0;
+    outline: 0;
+     background:transparent;
+    // various element specific resets - these have no effect on elements which don't use them
+    list-style: none;
+     vertical-align:baseline;
+     border-collapse:collapse;
+     border-spacing:0;
+     content: '';
+     content: none;
+     quotes: none;
+     // box-sizing set by core variable
+     box-sizing: $core-box-sizing;
+}
+
+// display property set to inline for tag independence
+// not set on body as that's just silly
+body * {
+     display: inline;
+}
+
+//don't display scripts
+script {
+    display: none;
+}
+
+// input placeholder reset
+// note: autoprefixer will duplicate this block for every required browser prefix - which is annoying but necessary.
+input::placeholder {
+    font-size: $core-font-size;
+    line-height: $core-line-height;
+    font-weight: normal;
+    font-family: inherit;
+    font-style: inherit;
+}
+
+// html5 block element resets for older browsers
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section {
+    display: inline;
+}
+
+// blockquote and q element pseudo resets
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none;
+}

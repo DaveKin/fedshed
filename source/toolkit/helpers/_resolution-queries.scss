@@ -1,0 +1,44 @@
+/**
+ * Resolution queries add support for using 2x and 3x retina images.
+ * The mixins produce minimal queries which are compatible with autoprefixer for target browser support
+ * 
+ * @group Toolkit
+ * @component Helpers
+ */
+
+/**
+ * use for styles that should be applied at 2x pixel density (retina screens)
+ * @example scss - background-image
+ *   .myClass{
+ *     background-image: url(1x.png);
+ *     @include at2xResolution{
+ *       background-image: url(2x.png);
+ *     }
+ *   }
+ * @content
+ */
+@mixin at2xResolution {
+  @media only screen and (min-resolution: 1.3dppx) {
+    @content
+  }
+}
+
+/**
+ * use for styles that should be applied at 3x pixel density (e.g. iPhone 6Plus)
+ * @example scss - background-image
+ *   .myClass{
+ *     background-image: url(1x.png);
+ *     @include at2xResolution{
+ *       background-image: url(2x.png);
+ *     }
+ *     @include at3xResolution{
+ *       background-image: url(3x.png);
+ *     }
+ *   }
+ * @content
+ */
+@mixin at3xResolution {
+  @media only screen and (min-resolution: 2.25dppx) {
+    @content
+  }
+}

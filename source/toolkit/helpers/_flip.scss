@@ -1,0 +1,17 @@
+/**
+ * use alternate property values for ltr or rtl rendering
+ * @param  {any} $value_ltr the value to use for ltr rendering
+ * @param  {any} $value_rtl the value to use for rtl rendering
+ * @return {any}            value_ltr or value_rtl depending on the value of $core-direction
+ * @group Toolkit
+ * @component Helpers
+ */
+@function flip($value_ltr, $value_rtl, $direction: $core-direction) {
+  @if $direction == rtl { @return $value_rtl; }
+  @else { @return $value_ltr; }
+}
+
+@mixin direction($direction: $core-direction){
+    direction: $direction;
+    unicode-bidi: flip(normal, bidi-override, $direction);
+}

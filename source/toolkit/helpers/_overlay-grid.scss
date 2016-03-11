@@ -1,0 +1,29 @@
+/**
+ * overlay a grid showing horizontal and vertical rhythm based on $core-grid-unit
+ *
+ * *Caution* sets the positioning of the element to relative - may cause problems
+ * 
+ * @example
+ *     body.grid {
+ *         \@include overlay-grid();
+ *     }
+ * @param {color} $vstripe [rgba(0,255,0,.025)] - color for the vertical stripes
+ * @param {color} $hstripe [rgba(255,0,0,.2)] - color for the horizontal stripes
+ * @param {string} $blend-mode [difference] - blend-mode for the overlay grid
+ * @group Toolkit
+ * @component Helpers
+ */
+@mixin overlay-grid( $vstripe: rgba(0,255,0,.1), $hstripe: rgba(255,0,0,.1), $blend-mode: difference ){
+    position: relative;
+    &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-image: linear-gradient(90deg, $vstripe 50%, transparent 50%), linear-gradient($hstripe 50%, transparent 50%);
+        mix-blend-mode: $blend-mode;
+        background-size: 2*$core-grid-unit 2*$core-grid-unit;
+    }
+}

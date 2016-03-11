@@ -1,0 +1,331 @@
+/**
+ * Grid
+ * 
+ * What we really want is a grid system which generates flexbox styles with automatic fallbacks
+ *
+ * @group Toolkit
+ * @component Grid
+ */
+
+/**
+ * @group Toolkit
+ * @component Grid
+ */
+$grid-direction: inherit !default;
+/**
+ */
+$grid-use-flex: true !default;
+/**
+ */
+$grid-use-float: true !default;
+
+
+/**
+ * turn the styled class into a grid container 
+ * apply the grid specification to the child elements of the container
+ *
+ * @example
+ * ``` scss
+ * .wrap{
+ *    \@include make-grid((1,3));
+ * }
+ * ```
+ * 
+ * @param   {number|list}   $columns: ""                    the number of equal columns to generate or a list of ratios
+ * @param   {string}        $target: "*"                    the target selector for the child elements to use as grid columns
+ * @param   {list}          $order: ""                      specify the order in which to display the columns
+ * @param   {boolean}       $flex: $grid-use-flex           use flexbox for column styles
+ * @param   {boolean}       $float: $grid-use-float         use floats for column styles or as a fallback for flexbox
+ * @param   {string}        $direction: $grid-direction     use to specify rtl or ltr rendering for an individual grid
+ */
+@mixin make-grid(
+    $columns:"", 
+    $target: "*",
+    $order: "",
+    $flex: $grid-use-flex, 
+    $float: $grid-use-float,
+    $direction: $grid-direction
+){
+    @include direction($direction);
+    @if $float == true {
+        @include columns-float($columns,$target,$order);
+    }
+    @else {
+        //ensure that at least one layout technique is used
+        $flex: true;
+    }
+    @if $flex == true {
+        //flex ordering conflicts with the float reorder method
+        @if $float == true {
+            $order: "";
+        }
+        @include columns-flex($columns,$target,$order);
+    }
+}
+
+/**
+ * Generate a flex grid
+ * 
+ * @param   {number|list}   $columns: ""                    the number of equal columns to generate or a list of ratios
+ * @param   {string}        $target: "*"                    the target selector for the child elements to use as grid columns
+ * @param   {list}          $order: ""                      specify the order in which to display the columns
+ */
+@mixin columns-flex(
+    $columns:"", 
+    $target:"*",
+    $order: ""
+) {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: inherit;
+        @if $columns != "" {
+        
+        $columns: calc-column-ratio($columns);
+        $column-count: length($columns);
+        $ratios-sum: sum-ratios($columns);
+        $target-child-selector: child-selector($target);
+
+        $i: 0;
+        @each $ratio in $columns {
+            $i: $i + 1;
+            
+            & > #{$target}:#{$target-child-selector}(#{$column-count}n+#{$i}) {
+                $basis: (100% / $ratios-sum) * $ratio;
+                flex: 0 0 $basis;
+                @if $order != "" {                    
+                    @if length($order) == length($columns){
+                        // ought to check if nth($order, $i) is numeric
+                        order: nth($order, $i);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/**
+ * convert a list of column ratios to percentage widths
+ * 
+ * @param  {list} $columns: ""            list of ratios
+ * @return {list}           list of percentage widths
+ */
+@function calc-column-widths($columns: "") {
+    $column-count: length($columns);
+    $ratios-sum: sum-ratios($columns);
+    $widths: ();
+
+    @each $ratio in $columns {
+        $basis: (100% / $ratios-sum) * $ratio;
+        $widths: append($widths, $basis, comma);
+    }
+
+    @return $widths;
+}
+
+// Everything after this is adapted from NeutronCSS by Christopher Muller
+
+
+/**
+ * Declares the container element of child columns
+ * 
+ * @param   {number|list}   $columns: ""                    the number of equal columns to generate or a list of ratios
+ * @param   {string}        $target: "*"                    the target selector for the child elements to use as grid columns
+ * @param   {list}          $order: ""                      specify the order in which to display the columns
+ */
+@mixin columns-float(
+    $columns:"", 
+    $target:"*",
+    $order: ""
+) {
+    display: block; //required to override total-reset
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    @include clearfix();
+
+    @if $columns != "" {
+        
+        $columns: calc-column-ratio($columns);
+        $column-count: length($columns);
+        $target-child-selector: child-selector($target);
+        $widths: calc-column-widths($columns);
+        
+        $i: 0;
+
+        & > #{$target} {
+            width: 100% / $column-count;
+            float: flip(left, right);
+        }
+
+        @each $width in $widths {
+            $i: $i + 1;
+            
+            & > #{$target}:#{$target-child-selector}(#{$column-count}n+#{$i}) {
+                width: calc(#{$width});
+                float: flip(left, right);
+                
+                //if first column
+                @if $i == 1 {
+                    clear: left;
+                }
+                
+            }
+        }
+        @if $order != "" {
+            @include order($order, $columns, $target);
+        }
+    }
+}
+
+/**
+ * Re order a list using a numeric list
+ * @param  {list} $list  a list of values to be re-ordered
+ * @param  {list} $order a list of numbers indicating the new order
+ * @return {list}        the re-ordered list of values
+ */
+@function reorder-list($list, $order) {
+    
+    $new-list:();
+
+    @each $index in $order {
+        $item: nth($list, $index);
+        $new-list: append($new-list, $item, comma);
+    }
+    
+    @return $new-list;
+}
+
+/**
+ * get the sum of numbers in a list
+ * @param  {list} $list a list of numbers to sum
+ * @return {number}       the sum of all unitless numbers in the list
+ */
+@function sum-ratios($list) {
+    $sum: 0;
+    
+    @each $item in $list {
+        $unitless: unitless($item);
+        
+        @if $unitless {
+            $sum: $sum + $item;
+        }
+    }
+    
+    @return $sum;
+}
+
+/**
+ * if a single value is supplied for columns, this function will generate a list of equal ratios using the single number as the count
+ * @param  {number|list} $columns a list of ratios or a single number indicating the number of columns to generate.
+ * @return {list}          a list of column ratios
+ */
+@function calc-column-ratio($columns) {
+    $column-ratio: $columns;
+    
+    @if type-of($columns) != list {
+        $column-ratio: ();
+        
+        @for $i from 1 through $columns {
+            $column-ratio: append($column-ratio, 1, comma);
+        }
+    }
+    
+    @return $column-ratio;
+}
+
+/**
+ * return appropriate child psuedo-selector for target child selector
+ * @param  {string} $target-selector the target selector for child column elements
+ * @return {string}                  the psuedo-selector to use
+ */
+@function child-selector($target-selector) {
+    $child-selector: "nth-of-type";
+    
+    @if $target-selector == "*" {
+        $child-selector: "nth-child";
+    }
+    
+    @return $child-selector;
+}
+
+/**
+ * Specify the display order for the columns
+ * 
+ * @param  {list} $order             numeric list for column order
+ * @param  {list} $columns:""        list of column ratios
+ * @param  {string} $target:"*"        selector for column elements
+ */
+@mixin order( $order, $columns:"", $target:"*" ) {
+    
+    @if type-of($order) == list {
+        
+        //if no ratio is set, use $order to determine number of equal width columns
+        @if $columns == "" {
+            $columns: length($order);
+        }
+
+        //if column ratio is not a list, generate it
+        $columns: calc-column-ratio($columns);
+        $column-sum: sum($columns);
+        $column-count: length($columns);
+        $target-child-selector: child-selector($target);
+                
+        //calculate width of each column
+        $column-width-string:();
+
+        $i: 0;
+        $columns-offset: ();
+        @each $column in $columns {
+            $i: $i + 1;
+            
+            // calculate column widths 
+            $col-width: (100% / $column-sum) * $column;
+            
+            $column-width-string: append($column-width-string, "(#{$col-width})", comma);
+                    
+            // get sum of left offset of columns that come before current original position
+            $current-index: 0;
+            $orig-offset-from-left: "0px";
+            
+            @while $current-index < $i {
+                $current-index: $current-index + 1;
+                
+                $add-offset: nth($column-width-string, $current-index);
+                $orig-offset-from-left: $orig-offset-from-left + " + " + $add-offset;
+            }
+            
+            $orig-offset-from-left: "(" + $orig-offset-from-left + ")";
+            $columns-offset: append($columns-offset, $orig-offset-from-left, comma);
+            
+        }
+      
+        $new-column-width-string: reorder-list($column-width-string, $order);
+
+        //iterate over each column
+        $i: 0;
+        @each $column in $order {
+            $i: $i + 1;
+
+            // get sum of widths of columns that come before current one and add to offset
+            $new-position: index($order, $column);  
+            $new-offset-from-left: "0px";
+            
+            $index: 0;
+            @while $index < $new-position {
+                $index: $index + 1;
+                $new-offset-from-left: $new-offset-from-left + " + " + nth($new-column-width-string, $index);
+            }
+
+            //Get left offset required for this column to reset column to left side.
+            $ori-offset: nth($columns-offset, $column);
+
+            & > #{$target}:#{$target-child-selector}(#{$column-count}n+#{$column}) {
+                left: calc(0px - (#{$ori-offset}) + (#{$new-offset-from-left}));
+                position: relative;
+            }
+        }
+    }
+}
+
+
